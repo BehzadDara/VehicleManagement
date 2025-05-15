@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Application", "VehicleManagement.Application\VehicleManagement.Application.csproj", "{243C06CB-8377-4349-B089-C22D8155919A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Resources", "VehicleManagement.Resources\VehicleManagement.Resources.csproj", "{F1BD5C32-1AAC-46DC-B4A7-783CFEC10E56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingCode", "TrackingCode\TrackingCode.csproj", "{B89F9EE5-C4F0-485B-8324-026B25D8D619}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{243C06CB-8377-4349-B089-C22D8155919A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{243C06CB-8377-4349-B089-C22D8155919A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{243C06CB-8377-4349-B089-C22D8155919A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1BD5C32-1AAC-46DC-B4A7-783CFEC10E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1BD5C32-1AAC-46DC-B4A7-783CFEC10E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1BD5C32-1AAC-46DC-B4A7-783CFEC10E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1BD5C32-1AAC-46DC-B4A7-783CFEC10E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89F9EE5-C4F0-485B-8324-026B25D8D619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89F9EE5-C4F0-485B-8324-026B25D8D619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89F9EE5-C4F0-485B-8324-026B25D8D619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89F9EE5-C4F0-485B-8324-026B25D8D619}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

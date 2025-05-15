@@ -1,4 +1,4 @@
-﻿namespace Shirin.DomainService;
+﻿namespace VehicleManagement.DomainService;
 
 public class Settings
 {

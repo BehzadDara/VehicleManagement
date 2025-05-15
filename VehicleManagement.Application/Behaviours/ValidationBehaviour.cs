@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using MediatR;
 using VehicleManagement.Application.Exceptions;
+using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Behaviours;
 

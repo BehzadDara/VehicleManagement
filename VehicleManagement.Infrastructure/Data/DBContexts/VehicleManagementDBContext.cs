@@ -27,7 +27,7 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             .HasConversion(
             v => EncryptionHelper.Encrypt(v),
             v => EncryptionHelper.Decrypt(v)
-        ).HasMaxLength(10);
+        ).HasMaxLength(20);
 
         modelBuilder.Entity<Car>().Property(x => x.Gearbox)
             .HasConversion(
@@ -49,7 +49,7 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             .HasConversion(
             v => EncryptionHelper.Encrypt(v),
             v => EncryptionHelper.Decrypt(v)
-        ).HasMaxLength(10);
+        ).HasMaxLength(20);
 
         modelBuilder.Entity<Motorcycle>().Property(x => x.Fuel)
             .HasConversion(

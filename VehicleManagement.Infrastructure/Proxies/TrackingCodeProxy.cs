@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Shirin.DomainService;
+using VehicleManagement.DomainService;
 using VehicleManagement.DomainService.Proxies;
 
 namespace VehicleManagement.Infrastructure.Proxies;
