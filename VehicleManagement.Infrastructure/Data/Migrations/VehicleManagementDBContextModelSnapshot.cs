@@ -23,13 +23,18 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.HasSequence("CarSequence");
+
+            modelBuilder.HasSequence("MotorcycleSequence");
+
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR [v].[CarSequence]");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -64,15 +69,18 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cars", "v");
+
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.Motorcycle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR [v].[MotorcycleSequence]");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -107,6 +115,8 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Motorcycles", "v");
+
+                    b.UseTpcMappingStrategy();
                 });
 #pragma warning restore 612, 618
         }

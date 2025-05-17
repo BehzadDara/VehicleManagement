@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 using VehicleManagement.DomainModel.Enums;
 using VehicleManagement.DomainModel.Models;
 using VehicleManagement.Infrastructure.Helpers;
@@ -16,6 +15,8 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
         modelBuilder.HasDefaultSchema("v");
 
         #region Car
+
+        modelBuilder.Entity<Car>().UseTpcMappingStrategy();
 
         modelBuilder.Entity<Car>().HasKey(x => x.Id);
 
@@ -38,6 +39,8 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
         #endregion
 
         #region Motorcycle
+
+        modelBuilder.Entity<Motorcycle>().UseTpcMappingStrategy();
 
         modelBuilder.Entity<Motorcycle>().HasKey(x => x.Id);
 
