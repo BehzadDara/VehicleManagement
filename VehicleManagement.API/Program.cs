@@ -17,6 +17,9 @@ using VehicleManagement.Infrastructure.Data.DBContexts;
 using VehicleManagement.Infrastructure.Data.Repositories;
 using VehicleManagement.Application.ViewModels;
 using VehicleManagement.DomainModel.BaseModels;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using VehicleManagement.Application.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +65,15 @@ builder.Services.AddHttpClient<ITrackingCodeProxy, TrackingCodeProxy>((servicePr
             Console.WriteLine($"Retry {retryCount} after {delay.TotalSeconds}s due to {response.Exception?.Message ?? response.Result?.StatusCode.ToString()}");
         }));
 
+builder.Services.AddTransient<CarsTrackingCodeJob>();
+
+builder.Services.AddHangfire(config =>
+{
+    config.UseMemoryStorage();
+});
+
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -97,5 +109,13 @@ foreach (var enumType in enumTypes)
     })
         .WithTags("Enums");
 }
+
+app.UseHangfireDashboard("/hangfire");
+
+RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
+    "get-cars-tracking-code-job",
+    job => job.Get(),
+    "*/30 * * * * *"
+    );
 
 app.Run();

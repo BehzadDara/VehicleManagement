@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System.Text.Json;
 using VehicleManagement.DomainService;
 using VehicleManagement.DomainService.Proxies;
 
@@ -8,9 +9,9 @@ public class TrackingCodeProxy(IOptions<Settings> settings, HttpClient httpClien
 {
     private readonly TrackingCodeSettings _settings = settings.Value.TrackingCode;
 
-    public async Task<string> Get(CancellationToken cancellationToken)
+    public async Task<List<string>> Get(int count, CancellationToken cancellationToken)
     {
-        var url = string.Format(_settings.GetUrl, _settings.Prefix);
+        var url = string.Format(_settings.GetUrl, _settings.Prefix, count);
 
         using HttpResponseMessage response = await httpClient.GetAsync(url, cancellationToken);
 
@@ -21,7 +22,10 @@ public class TrackingCodeProxy(IOptions<Settings> settings, HttpClient httpClien
 
         response.EnsureSuccessStatusCode();
 
-        var trackingCode = await response.Content.ReadAsStringAsync(cancellationToken);
-        return trackingCode;
+        var resultString = await response.Content.ReadAsStringAsync(cancellationToken);
+        var resultJson = JsonSerializer.Deserialize<GetTrackingCodeViewModel>(resultString,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true})!;
+
+        return resultJson.TrackingCodes;
     }
 }

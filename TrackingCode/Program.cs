@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TrackingCode;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,15 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.MapGet("/TrackingCodes/{prefix}", ([FromRoute] string prefix) =>
+app.MapGet("/TrackingCodes/{prefix}/{count}", ([FromRoute] string prefix, [FromRoute] int count = 1) =>
 {
-    return $"{prefix}-{Random.Shared.Next(10000, 99999)}";
+    var trackingCodes = Enumerable.Range(0, count)
+        .Select(_ => $"{prefix}-{Random.Shared.Next(10000, 99999)}")
+        .ToList();
+
+    var result = new GetViewModel { TrackingCodes = trackingCodes };
+
+    return result;
 });
 
 app.Run();
