@@ -25,6 +25,11 @@ public class CarRepository(VehicleManagementDBContext db) : ICarRepository
         set.Update(car);
     }
 
+    public void Update(List<Car> cars)
+    {
+        set.UpdateRange(cars);
+    }
+
     public void Delete(Car car)
     {
         car.Delete();

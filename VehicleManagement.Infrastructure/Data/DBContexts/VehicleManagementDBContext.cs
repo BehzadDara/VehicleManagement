@@ -30,6 +30,10 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => EncryptionHelper.Decrypt(v)
         ).HasMaxLength(20);
 
+        modelBuilder.Entity<Car>()
+            .HasIndex(x => x.TrackingCode)
+            .IsUnique();
+
         modelBuilder.Entity<Car>().Property(x => x.Gearbox)
             .HasConversion(
             v => v.ToString(),
@@ -53,6 +57,10 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => EncryptionHelper.Encrypt(v),
             v => EncryptionHelper.Decrypt(v)
         ).HasMaxLength(20);
+
+        modelBuilder.Entity<Motorcycle>()
+            .HasIndex(x => x.TrackingCode)
+            .IsUnique();
 
         modelBuilder.Entity<Motorcycle>().Property(x => x.Fuel)
             .HasConversion(

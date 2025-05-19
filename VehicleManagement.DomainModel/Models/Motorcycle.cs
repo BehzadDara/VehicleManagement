@@ -7,17 +7,16 @@ public class Motorcycle : Vehicle
     public string TrackingCode { get; set; } = string.Empty;
     public FuelType Fuel {  get; set; }
 
-    private Motorcycle(string title, string trackingCode, FuelType fuel)
+    private Motorcycle(string title, FuelType fuel)
     {
         Title = title;
         IsActive = true;
-        TrackingCode = trackingCode;
         Fuel = fuel;
     }
 
-    public static Motorcycle Create(string title, string trackingCode, FuelType fuel)
+    public static Motorcycle Create(string title, FuelType fuel)
     {
-        return new Motorcycle(title, trackingCode, fuel);
+        return new Motorcycle(title, fuel);
     }
 
     public void Update(string title, FuelType fuel)

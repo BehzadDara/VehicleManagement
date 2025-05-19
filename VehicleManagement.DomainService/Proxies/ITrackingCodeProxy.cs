@@ -2,5 +2,5 @@
 
 public interface ITrackingCodeProxy
 {
-    public Task<string> Get(CancellationToken cancellationToken);
+    public Task<List<string>> Get(int count, CancellationToken cancellationToken);
 }

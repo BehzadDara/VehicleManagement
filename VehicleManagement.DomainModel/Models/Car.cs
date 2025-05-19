@@ -7,17 +7,16 @@ public class Car : Vehicle
     public string TrackingCode { get; private set; } = string.Empty;
     public GearboxType Gearbox { get; private set; }
 
-    private Car(string title, string trackingCode, GearboxType gearbox)
+    private Car(string title, GearboxType gearbox)
     {
         Title = title;
         IsActive = true;
-        TrackingCode = trackingCode;
         Gearbox = gearbox;
     }
 
-    public static Car Create(string title, string trackingCode, GearboxType gearbox)
+    public static Car Create(string title, GearboxType gearbox)
     {
-        return new Car(title, trackingCode, gearbox);
+        return new Car(title, gearbox);
     }
 
     public void Update(string title, GearboxType gearbox)
@@ -29,5 +28,10 @@ public class Car : Vehicle
     public void ToggleActivation()
     {
         IsActive = !IsActive;
+    }
+
+    public void SetTrackingCode(string trackingCode)
+    {
+        TrackingCode = trackingCode;
     }
 }

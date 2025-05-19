@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleManagement.Infrastructure.Data.DBContexts;
 
@@ -11,9 +12,11 @@ using VehicleManagement.Infrastructure.Data.DBContexts;
 namespace VehicleManagement.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(VehicleManagementDBContext))]
-    partial class VehicleManagementDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250519165307_TrackingCodeIndex")]
+    partial class TrackingCodeIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
