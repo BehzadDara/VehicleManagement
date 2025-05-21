@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleManagement.Infrastructure.Data.DBContexts;
 
@@ -11,9 +12,11 @@ using VehicleManagement.Infrastructure.Data.DBContexts;
 namespace VehicleManagement.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(VehicleManagementDBContext))]
-    partial class VehicleManagementDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250521160510_CarOptions")]
+    partial class CarOptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,31 +147,6 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                     b.ToTable("Motorcycles", "v");
 
                     b.UseTpcMappingStrategy();
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.Car", b =>
-                {
-                    b.OwnsMany("VehicleManagement.DomainModel.Models.CarTag", "Tags", b1 =>
-                        {
-                            b1.Property<int>("CarId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Title")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)");
-
-                            b1.Property<int>("Priority")
-                                .HasColumnType("int");
-
-                            b1.HasKey("CarId", "Title", "Priority");
-
-                            b1.ToTable("CarTags", "v");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CarId");
-                        });
-
-                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarOption", b =>

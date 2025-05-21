@@ -40,6 +40,26 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => (GearboxType)Enum.Parse(typeof(GearboxType), v)
         ).HasMaxLength(10);
 
+        modelBuilder.Entity<Car>()
+            .HasMany(x => x.Options)
+            .WithOne()
+            .HasForeignKey("CarId").IsRequired() // Shadow property
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CarOption>().HasKey(x => x.Id);
+        modelBuilder.Entity<CarOption>().Property(x => x.Description).HasMaxLength(100);
+        modelBuilder.Entity<CarOption>().ToTable("CarOptions");
+
+        modelBuilder.Entity<Car>()
+            .OwnsMany(x => x.Tags, tag =>
+            {
+                tag.WithOwner().HasForeignKey("CarId");
+                tag.Property(x => x.Title).HasMaxLength(20);
+                tag.Property(x => x.Priority).IsRequired();
+                tag.HasKey("CarId", "Title", "Priority");
+                tag.ToTable("CarTags");
+            });
+
         #endregion
 
         #region Motorcycle

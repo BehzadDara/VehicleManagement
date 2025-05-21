@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using VehicleManagement.API.DTOs;
 using VehicleManagement.API.Features;
 using VehicleManagement.Application.Commands.Car.Create;
+using VehicleManagement.Application.Commands.Car.CreateOption;
+using VehicleManagement.Application.Commands.Car.CreateTag;
 using VehicleManagement.Application.Commands.Car.Delete;
+using VehicleManagement.Application.Commands.Car.DeleteOption;
+using VehicleManagement.Application.Commands.Car.DeleteTag;
 using VehicleManagement.Application.Commands.Car.ToggleActivation;
 using VehicleManagement.Application.Commands.Car.Update;
 using VehicleManagement.Application.Queries.Car.GetById;
@@ -70,6 +74,42 @@ public class CarController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Activate([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new ToggleActivationCarCommand(id);
+        await mediator.Send(command, cancellationToken);
+
+        return Ok(BaseResult.Success());
+    }
+
+    [HttpPost("{id:int}/Options")]
+    public async Task<IActionResult> CreateOption([FromRoute] int id, [FromBody] CreateCarOptionDTO input, CancellationToken cancellationToken)
+    {
+        var command = new CreateCarOptionCommand(id, input.Description);
+        await mediator.Send(command, cancellationToken);
+
+        return Ok(BaseResult.Success());
+    }
+
+    [HttpDelete("{id:int}/Options/{optionId:guid}")]
+    public async Task<IActionResult> DeleteOption([FromRoute] int id, [FromRoute] Guid optionId, CancellationToken cancellationToken)
+    {
+        var command = new DeleteCarOptionCommand(id, optionId);
+        await mediator.Send(command, cancellationToken);
+
+        return Ok(BaseResult.Success());
+    }
+
+    [HttpPost("{id:int}/Tags")]
+    public async Task<IActionResult> CreateTag([FromRoute] int id, [FromBody] CreateCarTagDTO input, CancellationToken cancellationToken)
+    {
+        var command = new CreateCarTagCommand(id, input.Title, input.Priority);
+        await mediator.Send(command, cancellationToken);
+
+        return Ok(BaseResult.Success());
+    }
+
+    [HttpDelete("{id:int}/Tags")]
+    public async Task<IActionResult> DeleteTag([FromRoute] int id, [FromQuery] string title, [FromQuery] int priority, CancellationToken cancellationToken)
+    {
+        var command = new DeleteCarTagCommand(id, title, priority);
         await mediator.Send(command, cancellationToken);
 
         return Ok(BaseResult.Success());

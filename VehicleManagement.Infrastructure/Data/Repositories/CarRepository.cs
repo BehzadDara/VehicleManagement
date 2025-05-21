@@ -39,7 +39,10 @@ public class CarRepository(VehicleManagementDBContext db) : ICarRepository
 
     public async Task<Car?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await set.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await set
+            .Include(x => x.Options)
+            .Include(x => x.Tags)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<(int, List<Car>)> GetListAsync(BaseSpecification<Car> specification, CancellationToken cancellationToken)

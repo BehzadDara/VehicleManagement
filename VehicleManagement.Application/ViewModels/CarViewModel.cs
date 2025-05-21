@@ -1,4 +1,6 @@
-﻿namespace VehicleManagement.Application.ViewModels;
+﻿using VehicleManagement.DomainModel.Models;
+
+namespace VehicleManagement.Application.ViewModels;
 
 public class CarViewModel
 {
@@ -6,4 +8,6 @@ public class CarViewModel
     public string Title { get; set; } = string.Empty;
     public string TrackingCode { get; set; } = string.Empty;
     public string Gearbox { get; set; } = string.Empty;
+    public List<CarOption> Options { get; set; } = [];
+    public List<CarTag> Tags { get; set; } = [];
 }

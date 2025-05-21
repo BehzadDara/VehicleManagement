@@ -1,0 +1,24 @@
+﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using VehicleManagement.Application.Commands.Car.CreateTag;
+using VehicleManagement.Resources;
+
+namespace VehicleManagement.Application.Commands.Car.DeleteTag;
+
+public class DeleteCarTagCommandValidator : AbstractValidator<DeleteCarTagCommand>
+{
+    public DeleteCarTagCommandValidator()
+    {
+        RuleFor(x => x.Title)
+            .NotNull().NotEmpty()
+            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.CarTag.Title)));
+
+        RuleFor(x => x.Priority)
+            .NotNull().NotEmpty()
+            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.CarTag.Priority)));
+    }
+}
