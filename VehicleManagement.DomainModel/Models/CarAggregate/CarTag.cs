@@ -1,4 +1,4 @@
-﻿namespace VehicleManagement.DomainModel.Models;
+﻿namespace VehicleManagement.DomainModel.Models.CarAggregate;
 
 // Value type
 public class CarTag

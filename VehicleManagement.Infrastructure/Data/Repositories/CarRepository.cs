@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VehicleManagement.DomainModel.Models;
+using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.DomainService.BaseSpecifications;
 using VehicleManagement.DomainService.Repositories;
 using VehicleManagement.Infrastructure.Data.DBContexts;

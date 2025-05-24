@@ -1,4 +1,4 @@
-﻿using VehicleManagement.DomainModel.Models;
+﻿using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
 using VehicleManagement.DomainService.BaseSpecifications;
 
 namespace VehicleManagement.DomainService.Specifications;

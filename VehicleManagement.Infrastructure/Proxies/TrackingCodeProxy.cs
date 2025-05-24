@@ -5,9 +5,9 @@ using VehicleManagement.DomainService.Proxies;
 
 namespace VehicleManagement.Infrastructure.Proxies;
 
-public class TrackingCodeProxy(IOptions<Settings> settings, HttpClient httpClient) : ITrackingCodeProxy
+public class TrackingCodeProxy(IOptions<Settings> options, HttpClient httpClient) : ITrackingCodeProxy
 {
-    private readonly TrackingCodeSettings _settings = settings.Value.TrackingCode;
+    private readonly TrackingCodeSettings _settings = options.Value.TrackingCode;
 
     public async Task<List<string>> Get(int count, CancellationToken cancellationToken)
     {

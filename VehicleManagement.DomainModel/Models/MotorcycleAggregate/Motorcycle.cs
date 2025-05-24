@@ -1,11 +1,11 @@
 ﻿using VehicleManagement.DomainModel.Enums;
 
-namespace VehicleManagement.DomainModel.Models;
+namespace VehicleManagement.DomainModel.Models.MotorcycleAggregate;
 
 public class Motorcycle : Vehicle
 {
     public string TrackingCode { get; set; } = string.Empty;
-    public FuelType Fuel {  get; set; }
+    public FuelType Fuel { get; set; }
 
     private Motorcycle(string title, FuelType fuel)
     {

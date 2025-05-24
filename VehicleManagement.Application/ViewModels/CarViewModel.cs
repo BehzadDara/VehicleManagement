@@ -1,4 +1,4 @@
-﻿using VehicleManagement.DomainModel.Models;
+﻿using VehicleManagement.DomainModel.Models.CarAggregate;
 
 namespace VehicleManagement.Application.ViewModels;
 

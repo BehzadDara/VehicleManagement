@@ -7,7 +7,7 @@ public class CreateCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<C
 {
     public async Task Handle(CreateCarCommand request, CancellationToken cancellationToken)
     {
-        var car = DomainModel.Models.Car.Create(request.Title, request.Gearbox);
+        var car = DomainModel.Models.CarAggregate.Car.Create(request.Title, request.Gearbox);
 
         await unitOfWork.CarRepository.AddAsync(car, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);

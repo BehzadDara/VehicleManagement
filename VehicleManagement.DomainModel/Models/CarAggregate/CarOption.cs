@@ -1,4 +1,4 @@
-﻿namespace VehicleManagement.DomainModel.Models;
+﻿namespace VehicleManagement.DomainModel.Models.CarAggregate;
 
 // Entity
 public class CarOption

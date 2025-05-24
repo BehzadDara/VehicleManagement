@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using VehicleManagement.Application.ViewModels;
-using VehicleManagement.DomainModel.Models;
+using VehicleManagement.DomainModel.Models.CarAggregate;
+using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
 
 namespace VehicleManagement.Application.Helpers;
 

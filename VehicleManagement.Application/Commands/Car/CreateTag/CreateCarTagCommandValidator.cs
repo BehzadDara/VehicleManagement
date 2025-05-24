@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.Car.CreateTag;
@@ -9,6 +10,6 @@ public class CreateCarTagCommandValidator : AbstractValidator<CreateCarTagComman
     {
         RuleFor(x => x.Title)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.CarTag.Title)));
+            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Title)));
     }
 }

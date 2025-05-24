@@ -16,7 +16,7 @@ public class GetMotorcycleByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache 
         if (viewModel is null)
         {
             var motorcycle = await unitOfWork.MotorcycleRepository.GetByIdAsync(request.Id, cancellationToken)
-                ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.Motorcycle), request.Id));
+                ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle), request.Id));
 
             viewModel = motorcycle.ToViewModel();
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VehicleManagement.Application.Commands.Car.CreateTag;
+using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.Car.DeleteTag;
@@ -15,10 +16,10 @@ public class DeleteCarTagCommandValidator : AbstractValidator<DeleteCarTagComman
     {
         RuleFor(x => x.Title)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.CarTag.Title)));
+            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Title)));
 
         RuleFor(x => x.Priority)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.CarTag.Priority)));
+            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Priority)));
     }
 }

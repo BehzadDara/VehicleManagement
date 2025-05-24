@@ -10,7 +10,7 @@ public class UpdateMotorcycleCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
     public async Task Handle(UpdateMotorcycleCommand request, CancellationToken cancellationToken)
     {
         var motorcycle = await unitOfWork.MotorcycleRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.Motorcycle), request.Id));
+            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle), request.Id));
 
         motorcycle.Update(request.Title, request.Fuel);
 

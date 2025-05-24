@@ -7,7 +7,7 @@ public class CreateMotorcycleCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
 {
     public async Task Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
     {
-        var motorcycle = DomainModel.Models.Motorcycle.Create(request.Title, request.Fuel);
+        var motorcycle = DomainModel.Models.MotorcycleAggregate.Motorcycle.Create(request.Title, request.Fuel);
 
         await unitOfWork.MotorcycleRepository.AddAsync(motorcycle, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);

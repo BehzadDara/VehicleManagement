@@ -10,7 +10,7 @@ public class ToggleActivationCarCommandHandler(IUnitOfWork unitOfWork) : IReques
     public async Task Handle(ToggleActivationCarCommand request, CancellationToken cancellationToken)
     {
         var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.Car), request.Id));
+            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         car.ToggleActivation();
 

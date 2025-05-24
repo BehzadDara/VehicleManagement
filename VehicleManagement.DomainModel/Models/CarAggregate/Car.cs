@@ -1,6 +1,6 @@
 ﻿using VehicleManagement.DomainModel.Enums;
 
-namespace VehicleManagement.DomainModel.Models;
+namespace VehicleManagement.DomainModel.Models.CarAggregate;
 
 // Aggregate root
 public class Car : Vehicle

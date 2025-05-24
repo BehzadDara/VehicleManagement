@@ -16,7 +16,7 @@ public class GetCarByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryC
         if (viewModel is null)
         {
             var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-                ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.Car), request.Id));
+                ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
             viewModel = car.ToViewModel();
 

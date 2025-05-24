@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VehicleManagement.DomainModel.Enums;
-using VehicleManagement.DomainModel.Models;
+using VehicleManagement.DomainModel.Models.BackOfficeUserAggregate;
+using VehicleManagement.DomainModel.Models.CarAggregate;
+using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
 using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.DBContexts;
@@ -9,6 +11,7 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
 {
     public DbSet<Car> Cars { get; set; }
     public DbSet<Motorcycle> Motorcycles { get; set; }
+    public DbSet<BackOfficeUser> BackOfficeUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,6 +90,21 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => v.ToString(),
             v => (FuelType)Enum.Parse(typeof(FuelType), v)
         ).HasMaxLength(10);
+
+        #endregion
+
+        #region BackOfficeUser
+
+        modelBuilder.Entity<BackOfficeUser>().HasKey(x => x.Id);
+
+        modelBuilder.Entity<BackOfficeUser>().Property(x => x.Username).HasMaxLength(50);
+        modelBuilder.Entity<BackOfficeUser>().Property(x => x.Password).HasMaxLength(1000);
+
+        modelBuilder.Entity<BackOfficeUser>().HasData([
+                new BackOfficeUser{ Id = 1, Username = "Behzad", Password = "123"}
+            ]);
+
+        modelBuilder.Entity<BackOfficeUser>().ToTable("BackOfficeUsers", "bo");
 
         #endregion
 
