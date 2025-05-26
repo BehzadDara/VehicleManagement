@@ -7,6 +7,7 @@ public class BackOfficeUser : BaseEntity
     public required string Username { get; set; }
     public required string Password { get; set; }
     public DateTime? LastLoginAt { get; private set; }
+    public List<BackOfficeUserRole> Roles { get; set; } = [];
 
     public void SetLastLoginAt()
     {

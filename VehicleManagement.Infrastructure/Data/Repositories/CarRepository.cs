@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VehicleManagement.DomainModel.Models.CarAggregate;
+using VehicleManagement.DomainService;
 using VehicleManagement.DomainService.BaseSpecifications;
 using VehicleManagement.DomainService.Repositories;
 using VehicleManagement.Infrastructure.Data.DBContexts;
@@ -7,20 +8,20 @@ using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.Repositories;
 
-public class CarRepository(VehicleManagementDBContext db) : ICarRepository
+public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUser) : ICarRepository
 {
     private readonly DbSet<Car> set = db.Set<Car>();
 
     public async Task AddAsync(Car car, CancellationToken cancellationToken)
     {
-        car.Create();
+        car.Create(currentUser.Username);
 
         await set.AddAsync(car, cancellationToken);
     }
 
     public void Update(Car car)
     {
-        car.Update();
+        car.Update(currentUser.Username);
 
         set.Update(car);
     }
@@ -32,7 +33,7 @@ public class CarRepository(VehicleManagementDBContext db) : ICarRepository
 
     public void Delete(Car car)
     {
-        car.Delete();
+        car.Delete(currentUser.Username);
 
         set.Update(car);
     }

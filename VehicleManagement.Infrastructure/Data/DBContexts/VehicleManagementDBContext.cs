@@ -33,10 +33,6 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => EncryptionHelper.Decrypt(v)
         ).HasMaxLength(20);
 
-        modelBuilder.Entity<Car>()
-            .HasIndex(x => x.TrackingCode)
-            .IsUnique();
-
         modelBuilder.Entity<Car>().Property(x => x.Gearbox)
             .HasConversion(
             v => v.ToString(),
@@ -63,6 +59,10 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
                 tag.ToTable("CarTags");
             });
 
+        modelBuilder.Entity<Car>().Property(x => x.CreatedBy).HasMaxLength(50);
+        modelBuilder.Entity<Car>().Property(x => x.UpdatedBy).HasMaxLength(50);
+        modelBuilder.Entity<Car>().Property(x => x.DeletedBy).HasMaxLength(50);
+
         #endregion
 
         #region Motorcycle
@@ -81,15 +81,15 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
             v => EncryptionHelper.Decrypt(v)
         ).HasMaxLength(20);
 
-        modelBuilder.Entity<Motorcycle>()
-            .HasIndex(x => x.TrackingCode)
-            .IsUnique();
-
         modelBuilder.Entity<Motorcycle>().Property(x => x.Fuel)
             .HasConversion(
             v => v.ToString(),
             v => (FuelType)Enum.Parse(typeof(FuelType), v)
         ).HasMaxLength(10);
+
+        modelBuilder.Entity<Motorcycle>().Property(x => x.CreatedBy).HasMaxLength(50);
+        modelBuilder.Entity<Motorcycle>().Property(x => x.UpdatedBy).HasMaxLength(50);
+        modelBuilder.Entity<Motorcycle>().Property(x => x.DeletedBy).HasMaxLength(50);
 
         #endregion
 
@@ -100,11 +100,35 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
         modelBuilder.Entity<BackOfficeUser>().Property(x => x.Username).HasMaxLength(50);
         modelBuilder.Entity<BackOfficeUser>().Property(x => x.Password).HasMaxLength(1000);
 
-        modelBuilder.Entity<BackOfficeUser>().HasData([
-                new BackOfficeUser{ Id = 1, Username = "Behzad", Password = "123"}
-            ]);
-
         modelBuilder.Entity<BackOfficeUser>().ToTable("BackOfficeUsers", "bo");
+
+        modelBuilder.Entity<BackOfficeUser>()
+            .HasMany(x => x.Roles)
+            .WithOne()
+            .HasForeignKey("BackOfficeUserId").IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BackOfficeUserRole>().HasKey(x => x.Id);
+        modelBuilder.Entity<BackOfficeUserRole>().Property(x => x.Name).HasMaxLength(20);
+        modelBuilder.Entity<BackOfficeUserRole>().ToTable("BackOfficeUserRoles");
+
+        modelBuilder.Entity<BackOfficeUserRole>()
+            .HasMany(x => x.Permissions)
+            .WithOne()
+            .HasForeignKey("BackOfficeUserRoleId").IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BackOfficeUserPermission>().HasKey(x => x.Id);
+        modelBuilder.Entity<BackOfficeUserPermission>().ToTable("BackOfficeUserPermissions");
+
+        modelBuilder.Entity<BackOfficeUser>().HasData([
+                new BackOfficeUser
+                { 
+                    Id = 1, 
+                    Username = "Behzad", 
+                    Password = "123"
+                }
+            ]);
 
         #endregion
 

@@ -22,7 +22,7 @@ namespace VehicleManagement.API.Controllers;
 public class CarController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> Create([FromBody] CreateOrUpdateCarDTO input, CancellationToken cancellationToken)
     {
         var command = new CreateCarCommand(input.Title, input.Gearbox);
@@ -32,7 +32,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateOrUpdateCarDTO input, CancellationToken cancellationToken)
     {
         var command = new UpdateCarCommand(id, input.Title, input.Gearbox);
@@ -42,7 +42,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeleteCarCommand(id);
@@ -75,7 +75,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id:int}/ToggleActivation")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> Activate([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new ToggleActivationCarCommand(id);
@@ -85,7 +85,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("{id:int}/Options")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> CreateOption([FromRoute] int id, [FromBody] CreateCarOptionDTO input, CancellationToken cancellationToken)
     {
         var command = new CreateCarOptionCommand(id, input.Description);
@@ -95,7 +95,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:int}/Options/{optionId:guid}")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> DeleteOption([FromRoute] int id, [FromRoute] Guid optionId, CancellationToken cancellationToken)
     {
         var command = new DeleteCarOptionCommand(id, optionId);
@@ -105,7 +105,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("{id:int}/Tags")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> CreateTag([FromRoute] int id, [FromBody] CreateCarTagDTO input, CancellationToken cancellationToken)
     {
         var command = new CreateCarTagCommand(id, input.Title, input.Priority);
@@ -115,7 +115,7 @@ public class CarController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:int}/Tags")]
-    [Authorize]
+    [Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> DeleteTag([FromRoute] int id, [FromQuery] string title, [FromQuery] int priority, CancellationToken cancellationToken)
     {
         var command = new DeleteCarTagCommand(id, title, priority);

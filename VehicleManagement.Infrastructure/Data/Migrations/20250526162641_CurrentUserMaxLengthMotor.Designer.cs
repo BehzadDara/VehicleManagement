@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleManagement.Infrastructure.Data.DBContexts;
 
@@ -11,9 +12,11 @@ using VehicleManagement.Infrastructure.Data.DBContexts;
 namespace VehicleManagement.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(VehicleManagementDBContext))]
-    partial class VehicleManagementDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250526162641_CurrentUserMaxLengthMotor")]
+    partial class CurrentUserMaxLengthMotor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,50 +62,6 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                             Password = "123",
                             Username = "Behzad"
                         });
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserPermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BackOfficeUserRoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BackOfficeUserRoleId");
-
-                    b.ToTable("BackOfficeUserPermissions", "v");
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BackOfficeUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BackOfficeUserId");
-
-                    b.ToTable("BackOfficeUserRoles", "v");
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>
@@ -158,6 +117,9 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TrackingCode")
+                        .IsUnique();
 
                     b.ToTable("Cars", "v");
 
@@ -239,27 +201,12 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TrackingCode")
+                        .IsUnique();
+
                     b.ToTable("Motorcycles", "v");
 
                     b.UseTpcMappingStrategy();
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserPermission", b =>
-                {
-                    b.HasOne("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("BackOfficeUserRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", b =>
-                {
-                    b.HasOne("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUser", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("BackOfficeUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>
@@ -294,16 +241,6 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUser", b =>
-                {
-                    b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", b =>
-                {
-                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>

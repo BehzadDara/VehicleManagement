@@ -13,7 +13,7 @@ public class BackOfficeUserRepository(VehicleManagementDBContext db) : IBackOffi
 
     public async Task<BackOfficeUser?> GetAsync(BaseSpecification<BackOfficeUser> specification, CancellationToken cancellationToken)
     {
-        var query = set.Specify(specification);
+        var query = set.Include(x => x.Roles).ThenInclude(x => x.Permissions).Specify(specification);
 
         var backOfficeUser = await query.FirstOrDefaultAsync(cancellationToken);
 

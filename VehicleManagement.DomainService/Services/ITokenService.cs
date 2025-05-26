@@ -2,5 +2,5 @@
 
 public interface ITokenService
 {
-    public string Generate(string username);
+    public string Generate(string username, List<string> permissions);
 }

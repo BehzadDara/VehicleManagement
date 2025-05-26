@@ -16,6 +16,14 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
         {
             await SetContext(context, ex.Message, ex.Errors, StatusCodes.Status400BadRequest);
         }
+        catch (UnauthorizedException ex)
+        {
+            await SetContext(context, ex.Message, [], StatusCodes.Status401Unauthorized);
+        }
+        catch (ForbiddenException ex)
+        {
+            await SetContext(context, ex.Message, [], StatusCodes.Status403Forbidden);
+        }
         catch (NotFoundException ex)
         {
             await SetContext(context, ex.Message, [], StatusCodes.Status404NotFound);

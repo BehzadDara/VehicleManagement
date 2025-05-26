@@ -120,6 +120,9 @@
   <data name="BadRequest" xml:space="preserve">
     <value>Input is not correct.</value>
   </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Access denied.</value>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Login Failed.</value>
   </data>
@@ -134,5 +137,8 @@
   </data>
   <data name="TooManyRequest" xml:space="preserve">
     <value>Too many request.</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Unauthorized.</value>
   </data>
 </root>

@@ -20,7 +20,9 @@ public class LoginCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenServ
         unitOfWork.BackOfficeUserRepository.Update(backOfficeUser);
         await unitOfWork.CommitAsync(cancellationToken);
 
-        var token = tokenService.Generate(backOfficeUser.Username);
+        var permissions = backOfficeUser.Roles.SelectMany(x => x.Permissions).Select(x => x.Type.ToString()).ToList();
+
+        var token = tokenService.Generate(backOfficeUser.Username, permissions);
         return token;
     }
 }

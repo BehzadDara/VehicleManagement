@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
+using VehicleManagement.DomainService;
 using VehicleManagement.DomainService.BaseSpecifications;
 using VehicleManagement.DomainService.Repositories;
 using VehicleManagement.Infrastructure.Data.DBContexts;
@@ -7,27 +8,27 @@ using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.Repositories;
 
-public class MotorcycleRepository(VehicleManagementDBContext db) : IMotorcycleRepository
+public class MotorcycleRepository(VehicleManagementDBContext db, ICurrentUser currentUser) : IMotorcycleRepository
 {
     private readonly DbSet<Motorcycle> set = db.Set<Motorcycle>();
 
     public async Task AddAsync(Motorcycle motorcycle, CancellationToken cancellationToken)
     {
-        motorcycle.Create();
+        motorcycle.Create(currentUser.Username);
 
         await set.AddAsync(motorcycle, cancellationToken);
     }
 
     public void Update(Motorcycle motorcycle)
     {
-        motorcycle.Update();
+        motorcycle.Update(currentUser.Username);
 
         set.Update(motorcycle);
     }
 
     public void Delete(Motorcycle motorcycle)
     {
-        motorcycle.Delete();
+        motorcycle.Delete(currentUser.Username);
 
         set.Update(motorcycle);
     }

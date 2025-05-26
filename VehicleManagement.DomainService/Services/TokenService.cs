@@ -10,15 +10,20 @@ public class TokenService(IOptions<Settings> options) : ITokenService
 {
     private readonly JWTSettings _settings = options.Value.JWT;
 
-    public string Generate(string username)
+    public string Generate(string username, List<string> permissions)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, username)
+            new(ClaimTypes.NameIdentifier, username)
         };
+
+        foreach (var permission in permissions)
+        {
+            claims.Add(new Claim("permissions", permission));
+        }
 
         var token = new JwtSecurityToken(
                 issuer: _settings.Issuer,

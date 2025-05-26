@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VehicleManagement.API.DTOs;
 using VehicleManagement.API.Features;
@@ -14,6 +15,7 @@ namespace VehicleManagement.API.Controllers;
 
 [ApiController]
 [Route("Motorcycles")]
+[Authorize(Policy = "MotorcycleModifyPolicy")]
 public class MotorcycleController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
@@ -44,6 +46,7 @@ public class MotorcycleController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetMotorcycleByIdQuery(id);
@@ -53,6 +56,7 @@ public class MotorcycleController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetList(
         [FromQuery] string? q,
         [FromQuery] OrderType? orderType,

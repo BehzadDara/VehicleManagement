@@ -25,7 +25,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using Azure;
+using VehicleManagement.API.OperationFilters;
+using VehicleManagement.API;
+using VehicleManagement.DomainModel.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,9 +48,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddControllers();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("CarModifyPolicy", policy =>
+    {
+        policy.RequireClaim("Permissions", PermissionType.CarModifier.ToString());
+    })
+    .AddPolicy("MotorcycleModifyPolicy", policy =>
+    {
+        policy.RequireClaim("Permissions", PermissionType.MotorcycleModifier.ToString());
+    });
 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<ICurrentUser, CurrentUser>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -61,23 +76,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
-            },
-            Array.Empty<string>()
-        }
-    });
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -145,6 +144,7 @@ app.MapControllers();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RateLimitMiddleware>();
+app.UseMiddleware<HttpResponseMiddleware>();
 
 var enumTypes = typeof(BaseEntity).Assembly
     .GetTypes()

@@ -70,6 +70,15 @@ namespace VehicleManagement.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access denied..
+        /// </summary>
+        public static string Forbidden {
+            get {
+                return ResourceManager.GetString("Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login Failed..
         /// </summary>
         public static string LoginFailed {
@@ -111,6 +120,15 @@ namespace VehicleManagement.Resources {
         public static string TooManyRequest {
             get {
                 return ResourceManager.GetString("TooManyRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized..
+        /// </summary>
+        public static string Unauthorized {
+            get {
+                return ResourceManager.GetString("Unauthorized", resourceCulture);
             }
         }
     }
