@@ -20,13 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Messages.fa.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Messages.fa.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Messages.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Messages.fa.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.fa.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

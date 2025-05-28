@@ -148,6 +148,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+var supportedLanguages = Enum
+    .GetValues<Languages>()
+    .Cast<Languages>()
+    .Select(x => x.ToString())
+    .ToArray();
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedLanguages[0])
+    .AddSupportedCultures(supportedLanguages)
+    .AddSupportedUICultures(supportedLanguages);
+
+app.UseRequestLocalization(localizationOptions);
+
 app.MapControllers();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
@@ -185,18 +198,5 @@ RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
     job => job.Get(),
     "*/30 * * * * *"
     );
-
-var supportedLanguages = Enum
-    .GetValues<Languages>()
-    .Cast<Languages>()
-    .Select(x => x.ToString())
-    .ToArray();
-
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(supportedLanguages[0])
-    .AddSupportedCultures(supportedLanguages)
-    .AddSupportedUICultures(supportedLanguages);
-
-app.UseRequestLocalization(localizationOptions);
 
 app.Run();
