@@ -12,6 +12,30 @@ public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUs
 {
     private readonly DbSet<Car> set = db.Set<Car>();
 
+    private IQueryable<Car> GetQueryable(IQueryable<Car> query)
+    {
+        if (currentUser.HasGodAccess)
+        {
+            query = query.IgnoreQueryFilters();
+        }
+
+        return query;
+    }
+
+    private IQueryable<Car> GetGeneralQueryable()
+    {
+        var query = set.AsQueryable();
+
+        return GetQueryable(query);
+    }
+
+    private IQueryable<Car> GetReadOnlyQueryable()
+    {
+        var query = set.AsNoTracking().AsQueryable();
+
+        return GetQueryable(query);
+    }
+
     public async Task AddAsync(Car car, CancellationToken cancellationToken)
     {
         car.Create(currentUser.Username);
@@ -40,7 +64,7 @@ public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUs
 
     public async Task<Car?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await set
+        return await GetGeneralQueryable()
             .Include(x => x.Options)
             .Include(x => x.Tags)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -48,7 +72,7 @@ public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUs
 
     public async Task<(int, List<Car>)> GetListAsync(BaseSpecification<Car> specification, CancellationToken cancellationToken)
     {
-        var query = set.AsNoTracking().Specify(specification);
+        var query = GetReadOnlyQueryable().Specify(specification);
 
         var totalCount = await query.CountAsync(cancellationToken);
 

@@ -4,6 +4,7 @@ public class Settings
 {
     public required TrackingCodeSettings TrackingCode {  get; set; }
     public required JWTSettings JWT {  get; set; }
+    public required List<string> GodUsers { get; set; } = [];
 }
 
 public class TrackingCodeSettings

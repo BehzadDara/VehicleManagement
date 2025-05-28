@@ -28,6 +28,7 @@ using Microsoft.OpenApi.Models;
 using VehicleManagement.API.OperationFilters;
 using VehicleManagement.API;
 using VehicleManagement.DomainModel.Enums;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +59,12 @@ builder.Services.AddAuthorizationBuilder()
         policy.RequireClaim("Permissions", PermissionType.MotorcycleModifier.ToString());
     });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHttpContextAccessor();
@@ -77,6 +83,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 
     c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+    c.OperationFilter<AddAcceptLanguageHeaderParameter>();
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -128,6 +136,8 @@ builder.Services.AddHangfireServer(options =>
     options.SchedulePollingInterval = TimeSpan.FromSeconds(10);
 });
 
+builder.Services.AddLocalization();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -136,8 +146,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
-
 app.UseHttpsRedirection();
 
 app.MapControllers();
@@ -145,6 +153,9 @@ app.MapControllers();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RateLimitMiddleware>();
 app.UseMiddleware<HttpResponseMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var enumTypes = typeof(BaseEntity).Assembly
     .GetTypes()
@@ -174,5 +185,18 @@ RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
     job => job.Get(),
     "*/30 * * * * *"
     );
+
+var supportedLanguages = Enum
+    .GetValues<Languages>()
+    .Cast<Languages>()
+    .Select(x => x.ToString())
+    .ToArray();
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedLanguages[0])
+    .AddSupportedCultures(supportedLanguages)
+    .AddSupportedUICultures(supportedLanguages);
+
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();

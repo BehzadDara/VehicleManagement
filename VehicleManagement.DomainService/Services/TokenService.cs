@@ -9,6 +9,7 @@ namespace VehicleManagement.DomainService.Services;
 public class TokenService(IOptions<Settings> options) : ITokenService
 {
     private readonly JWTSettings _settings = options.Value.JWT;
+    private readonly List<string> _godUsers = options.Value.GodUsers;
 
     public string Generate(string username, List<string> permissions)
     {
@@ -17,7 +18,8 @@ public class TokenService(IOptions<Settings> options) : ITokenService
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, username)
+            new(ClaimTypes.NameIdentifier, username),
+            new("HasGodAccess", _godUsers.Contains(username).ToString())
         };
 
         foreach (var permission in permissions)

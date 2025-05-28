@@ -10,7 +10,25 @@ namespace VehicleManagement.Infrastructure.Data.Repositories;
 
 public class MotorcycleRepository(VehicleManagementDBContext db, ICurrentUser currentUser) : IMotorcycleRepository
 {
+
     private readonly DbSet<Motorcycle> set = db.Set<Motorcycle>();
+
+    private IQueryable<Motorcycle> GetQueryable(IQueryable<Motorcycle> query)
+    {
+        if (currentUser.HasGodAccess)
+        {
+            query = query.IgnoreQueryFilters();
+        }
+
+        return query;
+    }
+
+    private IQueryable<Motorcycle> GetReadOnlyQueryable()
+    {
+        var query = set.AsNoTracking().AsQueryable();
+
+        return GetQueryable(query);
+    }
 
     public async Task AddAsync(Motorcycle motorcycle, CancellationToken cancellationToken)
     {
@@ -35,12 +53,12 @@ public class MotorcycleRepository(VehicleManagementDBContext db, ICurrentUser cu
 
     public async Task<Motorcycle?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await set.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await GetReadOnlyQueryable().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<(int, List<Motorcycle>)> GetListAsync(BaseSpecification<Motorcycle> specification, CancellationToken cancellationToken)
     {
-        var query = set.AsNoTracking().Specify(specification);
+        var query = GetReadOnlyQueryable().Specify(specification);
 
         var totalCount = await query.CountAsync(cancellationToken);
 
