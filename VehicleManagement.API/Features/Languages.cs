@@ -3,5 +3,6 @@
 public enum Languages
 {
     En = 1,
-    Fa = 2
+    Fa = 2,
+    Ar = 3
 }

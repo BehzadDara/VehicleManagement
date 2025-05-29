@@ -1,9 +1,9 @@
-﻿using VehicleManagement.DomainModel.Enums;
+﻿using VehicleManagement.DomainModel.BaseModels;
+using VehicleManagement.DomainModel.Enums;
 
 namespace VehicleManagement.DomainModel.Models.BackOfficeUserAggregate;
 
-public class BackOfficeUserPermission
+public class BackOfficeUserPermission : BaseEntity
 {
-    public int Id { get; set; }
     public PermissionType Type { get; set; }
 }

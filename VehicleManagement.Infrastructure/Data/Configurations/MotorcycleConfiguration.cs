@@ -6,17 +6,11 @@ using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.Configurations;
 
-public class MotorcycleConfiguration : IEntityTypeConfiguration<Motorcycle>
+public class MotorcycleConfiguration : VehicleConfiguration<Motorcycle>
 {
-    public void Configure(EntityTypeBuilder<Motorcycle> builder)
+    public override void Configure(EntityTypeBuilder<Motorcycle> builder)
     {
         builder.UseTpcMappingStrategy();
-
-        builder.HasKey(x => x.Id);
-
-        builder.HasQueryFilter(x => !x.IsDeleted);
-
-        builder.Property(x => x.Title).HasMaxLength(50);
 
         builder.Property(x => x.TrackingCode)
             .HasConversion(
@@ -30,8 +24,6 @@ public class MotorcycleConfiguration : IEntityTypeConfiguration<Motorcycle>
             v => (FuelType)Enum.Parse(typeof(FuelType), v)
         ).HasMaxLength(10);
 
-        builder.Property(x => x.CreatedBy).HasMaxLength(50);
-        builder.Property(x => x.UpdatedBy).HasMaxLength(50);
-        builder.Property(x => x.DeletedBy).HasMaxLength(50);
+        base.Configure(builder);
     }
 }

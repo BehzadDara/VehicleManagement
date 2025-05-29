@@ -14,6 +14,7 @@ public class VehicleManagementDBContext(DbContextOptions options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("v");
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VehicleManagementDBContext).Assembly);
 
         base.OnModelCreating(modelBuilder);

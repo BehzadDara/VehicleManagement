@@ -1,8 +1,9 @@
-﻿namespace VehicleManagement.DomainModel.Models.BackOfficeUserAggregate;
+﻿using VehicleManagement.DomainModel.BaseModels;
 
-public class BackOfficeUserRole
+namespace VehicleManagement.DomainModel.Models.BackOfficeUserAggregate;
+
+public class BackOfficeUserRole : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public List<BackOfficeUserPermission> Permissions { get; set; } = [];
 }

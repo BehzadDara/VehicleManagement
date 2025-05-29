@@ -4,9 +4,9 @@ using VehicleManagement.DomainModel.Models.BackOfficeUserAggregate;
 
 namespace VehicleManagement.Infrastructure.Data.Configurations;
 
-internal class BackOfficeUserConfiguration : IEntityTypeConfiguration<BackOfficeUser>
+internal class BackOfficeUserConfiguration : BaseEntityConfiguration<BackOfficeUser>
 {
-    public void Configure(EntityTypeBuilder<BackOfficeUser> builder)
+    public override void Configure(EntityTypeBuilder<BackOfficeUser> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -29,14 +29,17 @@ internal class BackOfficeUserConfiguration : IEntityTypeConfiguration<BackOffice
                     Password = "123"
                 }
             ]);
+
+        base.Configure(builder);
     }
 }
 
-public class BackOfficeUserRoleConfiguration : IEntityTypeConfiguration<BackOfficeUserRole>
+public class BackOfficeUserRoleConfiguration : BaseEntityConfiguration<BackOfficeUserRole>
 {
-    public void Configure(EntityTypeBuilder<BackOfficeUserRole> builder)
+    public override void Configure(EntityTypeBuilder<BackOfficeUserRole> builder)
     {
         builder.HasKey(x => x.Id);
+
         builder.Property(x => x.Name).HasMaxLength(20);
         builder.ToTable("BackOfficeUserRoles");
 
@@ -44,5 +47,7 @@ public class BackOfficeUserRoleConfiguration : IEntityTypeConfiguration<BackOffi
             .WithOne()
             .HasForeignKey("BackOfficeUserRoleId")
             .OnDelete(DeleteBehavior.Cascade);
+
+        base.Configure(builder);
     }
 }

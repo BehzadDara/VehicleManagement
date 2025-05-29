@@ -6,17 +6,11 @@ using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.Configurations;
 
-public class CarConfiguration : IEntityTypeConfiguration<Car>
+public class CarConfiguration : VehicleConfiguration<Car>
 {
-    public void Configure(EntityTypeBuilder<Car> builder)
+    public override void Configure(EntityTypeBuilder<Car> builder)
     {
         builder.UseTpcMappingStrategy();
-
-        builder.HasKey(x => x.Id);
-
-        builder.HasQueryFilter(x => !x.IsDeleted);
-
-        builder.Property(x => x.Title).HasMaxLength(50);
 
         builder.Property(x => x.TrackingCode)
             .HasConversion(
@@ -46,11 +40,10 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             tag.ToTable("CarTags");
         });
 
-        builder.Property(x => x.CreatedBy).HasMaxLength(50);
-        builder.Property(x => x.UpdatedBy).HasMaxLength(50);
-        builder.Property(x => x.DeletedBy).HasMaxLength(50);
+        base.Configure(builder);
     }
 }
+
 public class CarOptionConfiguration : IEntityTypeConfiguration<CarOption>
 {
     public void Configure(EntityTypeBuilder<CarOption> builder)
