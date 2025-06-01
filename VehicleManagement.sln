@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFInheritance", "EFInherita
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VehicleManagement", "VehicleManagement", "{535F2574-0AAB-4F54-A051-00A9FD547F3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener", "URLShortener\URLShortener.csproj", "{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{75957E36-2227-4835-A183-8EB8D852E3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75957E36-2227-4835-A183-8EB8D852E3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75957E36-2227-4835-A183-8EB8D852E3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

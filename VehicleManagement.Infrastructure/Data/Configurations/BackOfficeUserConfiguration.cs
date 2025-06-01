@@ -8,8 +8,6 @@ internal class BackOfficeUserConfiguration : BaseEntityConfiguration<BackOfficeU
 {
     public override void Configure(EntityTypeBuilder<BackOfficeUser> builder)
     {
-        builder.HasKey(x => x.Id);
-
         builder.Property(x => x.Username).HasMaxLength(50);
         builder.Property(x => x.Password).HasMaxLength(1000);
 
@@ -38,8 +36,6 @@ public class BackOfficeUserRoleConfiguration : BaseEntityConfiguration<BackOffic
 {
     public override void Configure(EntityTypeBuilder<BackOfficeUserRole> builder)
     {
-        builder.HasKey(x => x.Id);
-
         builder.Property(x => x.Name).HasMaxLength(20);
         builder.ToTable("BackOfficeUserRoles");
 

@@ -196,7 +196,8 @@ app.UseHangfireDashboard("/hangfire");
 RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
     "get-cars-tracking-code-job",
     job => job.Get(),
-    "*/30 * * * * *"
+    Cron.Yearly()
+    //"*/30 * * * * *"
     );
 
 app.Run();
