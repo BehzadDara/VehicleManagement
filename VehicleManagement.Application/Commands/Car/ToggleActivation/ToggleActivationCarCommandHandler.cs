@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Exceptions;
+using VehicleManagement.Application.Helpers;
+using VehicleManagement.Application.Publishers;
 using VehicleManagement.DomainService;
 using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.Car.ToggleActivation;
 
-public class ToggleActivationCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<ToggleActivationCarCommand>
+public class ToggleActivationCarCommandHandler(IUnitOfWork unitOfWork, CarMessagePublisher publisher) : IRequestHandler<ToggleActivationCarCommand>
 {
     public async Task Handle(ToggleActivationCarCommand request, CancellationToken cancellationToken)
     {
@@ -16,5 +18,8 @@ public class ToggleActivationCarCommandHandler(IUnitOfWork unitOfWork) : IReques
 
         unitOfWork.CarRepository.Update(car);
         await unitOfWork.CommitAsync(cancellationToken);
+
+        var message = car.ToMessage();
+        await publisher.PublishMessageAsync(message, cancellationToken);
     }
 }

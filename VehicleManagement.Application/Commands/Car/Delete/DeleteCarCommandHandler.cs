@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Exceptions;
+using VehicleManagement.Application.Helpers;
+using VehicleManagement.Application.Publishers;
 using VehicleManagement.DomainService;
 using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.Car.Delete;
 
-public class DeleteCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteCarCommand>
+public class DeleteCarCommandHandler(IUnitOfWork unitOfWork, CarMessagePublisher publisher) : IRequestHandler<DeleteCarCommand>
 {
     public async Task Handle(DeleteCarCommand request, CancellationToken cancellationToken)
     {
@@ -14,5 +16,8 @@ public class DeleteCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<D
 
         unitOfWork.CarRepository.Delete(car);
         await unitOfWork.CommitAsync(cancellationToken);
+
+        var message = car.ToMessage();
+        await publisher.PublishMessageAsync(message, cancellationToken);
     }
 }

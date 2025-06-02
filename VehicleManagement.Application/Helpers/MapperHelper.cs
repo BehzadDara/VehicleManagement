@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using VehicleManagement.Application.Publishers;
 using VehicleManagement.Application.ViewModels;
 using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
@@ -30,6 +31,19 @@ public static class MapperHelper
             Gearbox = x.Gearbox.ToString(),
         }).ToList();
     }
+
+    public static CarMessage ToMessage(this Car entity)
+    {
+        return  new CarMessage
+        {
+            Id = entity.Id,
+            Title = entity.Title,
+            Gearbox = entity.Gearbox.ToString(),
+            IsActive = entity.IsActive,
+            IsDeleted = entity.IsDeleted,
+        };
+    }
+
     public static MotorcycleViewModel ToViewModel(this Motorcycle entity)
     {
         var config = new MapperConfiguration(cfg =>

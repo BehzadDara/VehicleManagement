@@ -29,11 +29,36 @@ using VehicleManagement.API.OperationFilters;
 using VehicleManagement.API;
 using VehicleManagement.DomainModel.Enums;
 using System.Text.Json.Serialization;
+using RabbitMQ.Client;
+using VehicleManagement.Application.Publishers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<VehicleManagementDBContext>(options => options.UseSqlServer(connectionString));
+
+var rabbitMQConfig = builder.Configuration.GetSection("RabbitMQ");
+builder.Services.AddSingleton<IConnectionFactory>(_ =>
+    new ConnectionFactory
+    {
+        HostName = rabbitMQConfig["HostName"]!,
+        UserName = rabbitMQConfig["UserName"]!,
+        Password = rabbitMQConfig["Password"]!,
+    });
+
+builder.Services.AddSingleton(sp =>
+{
+    var factory = sp.GetRequiredService<IConnectionFactory>();
+    return factory.CreateConnectionAsync().Result;
+});
+
+builder.Services.AddSingleton(sp =>
+{
+    var connection = sp.GetRequiredService<IConnection>();
+    return connection.CreateChannelAsync().Result;
+});
+
+builder.Services.AddSingleton<CarMessagePublisher>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -201,3 +226,12 @@ RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
     );
 
 app.Run();
+
+
+// Queue -> QueueSource and QueueDestination
+// Routing Key -> ModelA.Create and ModelA.Update
+// Binding Key -> ModelA.Create OR ModelA.* OR *.Create
+// Exchange ->
+//          Direct (routing key = binding key)
+//          Fanout (igonre binding key)
+//          Topic (check regex of bining key)
