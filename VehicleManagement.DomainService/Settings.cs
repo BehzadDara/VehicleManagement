@@ -12,6 +12,7 @@ public class TrackingCodeSettings
     public required string BaseURL { get; set; }
     public required string GetUrl { get; set; }
     public required string Prefix { get; set; }
+    public required string APIKey { get; set; }
 }
 
 public class JWTSettings

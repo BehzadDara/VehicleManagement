@@ -1,7 +1,6 @@
 ﻿using FastEndpoints;
 using MongoDB.Driver;
 using URLShortener.Models;
-using static FastEndpoints.Ep;
 
 namespace URLShortener.Endpoints;
 

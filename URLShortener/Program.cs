@@ -10,6 +10,13 @@ builder.Services.AddSingleton<URLShortenerDBContext>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddFastEndpoints();
 
+var redisConfig = builder.Configuration.GetSection("Redis");
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisConfig["HostName"];
+    options.InstanceName = redisConfig["InstanceName"];
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

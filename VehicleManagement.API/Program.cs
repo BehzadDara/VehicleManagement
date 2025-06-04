@@ -131,12 +131,20 @@ builder.Services.AddValidatorsFromAssembly(typeof(ValidationBehaviour<,>).Assemb
 
 builder.Services.AddMemoryCache();
 
+var redisConfig = builder.Configuration.GetSection("Redis");
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisConfig["HostName"];
+    options.InstanceName = redisConfig["InstanceName"];
+});
+
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
 builder.Services.AddHttpClient<ITrackingCodeProxy, TrackingCodeProxy>((serviceProvider, client) =>
 {
     var settings = serviceProvider.GetRequiredService<IOptions<Settings>>().Value.TrackingCode;
     client.BaseAddress = new Uri(settings.BaseURL);
+    client.DefaultRequestHeaders.Add("X-API-Key", settings.APIKey);
 })
 .AddPolicyHandler(Policy<HttpResponseMessage>
     .Handle<HttpRequestException>()

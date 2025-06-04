@@ -26,4 +26,6 @@ app.MapGet("/TrackingCodes/{prefix}/{count}", ([FromRoute] string prefix, [FromR
     return result;
 });
 
+app.UseMiddleware<APIKeyMiddleware>();
+
 app.Run();
