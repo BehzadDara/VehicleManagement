@@ -5,6 +5,7 @@ public class Settings
     public required TrackingCodeSettings TrackingCode {  get; set; }
     public required JWTSettings JWT {  get; set; }
     public required List<string> GodUsers { get; set; } = [];
+    public required PriorityConfigSettings PriorityConfig { get; set; }
 }
 
 public class TrackingCodeSettings
@@ -21,4 +22,11 @@ public class JWTSettings
     public required string Issuer { get; set; }
     public required string Audience { get; set; }
     public int ExpireInMinutes { get; set; }
+}
+
+public class PriorityConfigSettings
+{
+    public int TrackingCodeProxy { get; set; }
+    public int LocalTrackingCodeProxy { get; set; }
+    public int FallbackTrackingCodeProxy { get; set; }
 }

@@ -31,6 +31,9 @@ using VehicleManagement.DomainModel.Enums;
 using System.Text.Json.Serialization;
 using RabbitMQ.Client;
 using VehicleManagement.Application.Publishers;
+using VehicleManagement.Infrastructure.Resolvers;
+using VehicleManagement.DomainService.Resolvers;
+using VehicleManagement.DomainService.Failovers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,7 +121,15 @@ builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IBackOfficeUserRepository, BackOfficeUserRepository>();
 
+// Strategy pattern
+builder.Services.AddScoped<TrackingCodeProxy>();
+builder.Services.AddScoped<LocalTrackingCodeProxy>();
+builder.Services.AddScoped<ITrackingCodeResolver, TrackingCodeResolver>();
+
+// Failover pattern
 builder.Services.AddScoped<ITrackingCodeProxy, TrackingCodeProxy>();
+builder.Services.AddScoped<ITrackingCodeProxy, LocalTrackingCodeProxy>();
+builder.Services.AddScoped<FallbackTrackingCodeProxy>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
@@ -140,12 +151,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
-builder.Services.AddHttpClient<ITrackingCodeProxy, TrackingCodeProxy>((serviceProvider, client) =>
-{
-    var settings = serviceProvider.GetRequiredService<IOptions<Settings>>().Value.TrackingCode;
-    client.BaseAddress = new Uri(settings.BaseURL);
-    client.DefaultRequestHeaders.Add("X-API-Key", settings.APIKey);
-})
+builder.Services.AddHttpClient<TrackingCodeProxy>()
 .AddPolicyHandler(Policy<HttpResponseMessage>
     .Handle<HttpRequestException>()
     .OrResult(r => !r.IsSuccessStatusCode)

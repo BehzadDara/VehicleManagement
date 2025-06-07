@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VehicleManagement", "Vehicl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URLShortener", "URLShortener\URLShortener.csproj", "{A9ADDA59-2192-4C6F-AA51-1EBDED619B15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBlog", "CarBlog\CarBlog.csproj", "{146FDDEE-91E6-4FC2-A9FB-9B27E65CF41A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarBlog", "CarBlog\CarBlog.csproj", "{146FDDEE-91E6-4FC2-A9FB-9B27E65CF41A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

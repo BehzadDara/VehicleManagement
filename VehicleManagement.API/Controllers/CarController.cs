@@ -9,6 +9,7 @@ using VehicleManagement.Application.Commands.Car.CreateTag;
 using VehicleManagement.Application.Commands.Car.Delete;
 using VehicleManagement.Application.Commands.Car.DeleteOption;
 using VehicleManagement.Application.Commands.Car.DeleteTag;
+using VehicleManagement.Application.Commands.Car.SetTrackingCode;
 using VehicleManagement.Application.Commands.Car.ToggleActivation;
 using VehicleManagement.Application.Commands.Car.Update;
 using VehicleManagement.Application.Queries.Car.GetById;
@@ -36,6 +37,16 @@ public class CarController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateOrUpdateCarDTO input, CancellationToken cancellationToken)
     {
         var command = new UpdateCarCommand(id, input.Title, input.Gearbox);
+        await mediator.Send(command, cancellationToken);
+
+        return Ok(BaseResult.Success());
+    }
+
+    [HttpPut("{id:int}/TrackingCode")]
+    [Authorize(Policy = "CarModifyPolicy")]
+    public async Task<IActionResult> Update([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        var command = new SetTrackingCodeCommand(id);
         await mediator.Send(command, cancellationToken);
 
         return Ok(BaseResult.Success());

@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using VehicleManagement.DomainService;
 using VehicleManagement.DomainService.Proxies;
+using VehicleManagement.DomainService.Resolvers;
 using VehicleManagement.DomainService.Specifications;
 
 namespace VehicleManagement.Application.Commands.Car.SetTrackingCodes;
 
 public class SetTrackingCodesCommandHandler(
     IUnitOfWork unitOfWork, 
-    ITrackingCodeProxy trackingCodeProxy
+    ITrackingCodeResolver trackingCodeResolver
     ) : IRequestHandler<SetTrackingCodesCommand>
 {
     public async Task Handle(SetTrackingCodesCommand request, CancellationToken cancellationToken)
@@ -23,6 +24,8 @@ public class SetTrackingCodesCommandHandler(
         List<string>? trackingCodes;
         try
         {
+            // Strategy pattern
+            var trackingCodeProxy = trackingCodeResolver.Resolve(entities.Count);
             trackingCodes = await trackingCodeProxy.Get(entities.Count, cancellationToken);
 
             if (trackingCodes.Count != entities.Count)
