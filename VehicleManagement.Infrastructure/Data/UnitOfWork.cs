@@ -6,6 +6,7 @@ namespace VehicleManagement.Infrastructure.Data;
 
 public class UnitOfWork(
     VehicleManagementDBContext db,
+    VehicleManagementReadDBContext readDB,
     ICarRepository carRepository,
     ICarReadRepository carReadRepository,
     IMotorcycleRepository motorcycleRepository,
@@ -15,6 +16,11 @@ public class UnitOfWork(
     public async Task CommitAsync(CancellationToken cancellationToken)
     {
         await db.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task CommitReadAsync(CancellationToken cancellationToken)
+    {
+        await readDB.SaveChangesAsync(cancellationToken);
     }
 
     public ICarRepository CarRepository { get; init; } = carRepository;
