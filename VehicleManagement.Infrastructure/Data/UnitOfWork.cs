@@ -17,6 +17,10 @@ public class UnitOfWork(
     {
         await db.SaveChangesAsync(cancellationToken);
     }
+    public async Task CommitReadAsync(CancellationToken cancellationToken)
+    {
+        await readDB.SaveChangesAsync(cancellationToken);
+    }
 
     public async Task CommitReadAsync(CancellationToken cancellationToken)
     {
