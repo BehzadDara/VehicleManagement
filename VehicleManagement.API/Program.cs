@@ -33,6 +33,7 @@ using VehicleManagement.Application.Publishers;
 using VehicleManagement.Infrastructure.Resolvers;
 using VehicleManagement.DomainService.Resolvers;
 using VehicleManagement.DomainService.Failovers;
+using VehicleManagement.Application.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,6 +120,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarReadRepository, CarReadRepository>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IBackOfficeUserRepository, BackOfficeUserRepository>();
 
@@ -177,6 +179,8 @@ builder.Services.AddHangfireServer(options =>
 });
 
 builder.Services.AddLocalization();
+
+builder.Services.AddHostedService<CarMessageConsumer>();
 
 var app = builder.Build();
 

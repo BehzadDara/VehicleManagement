@@ -13,7 +13,7 @@ public class LoginCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenServ
     {
         var specification = new GetBackOfficeUserWithUsernameAndPasswordSpecification(request.Username, request.Password);
         var backOfficeUser = await unitOfWork.BackOfficeUserRepository.GetAsync(specification, cancellationToken)
-            ?? throw new NotFoundException(Messages.LoginFailed);
+            ?? throw new NotFoundException(Resources.Messages.LoginFailed);
 
         backOfficeUser.SetLastLoginAt();
 

@@ -10,7 +10,7 @@ public class DeleteCarOptionCommandHandler(IUnitOfWork unitOfWork) : IRequestHan
     public async Task Handle(DeleteCarOptionCommand request, CancellationToken cancellationToken)
     {
         var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
+            ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         car.RemoveOption(request.OptionId);
 

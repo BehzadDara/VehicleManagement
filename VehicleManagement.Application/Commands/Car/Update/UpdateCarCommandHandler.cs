@@ -12,7 +12,7 @@ public class UpdateCarCommandHandler(IUnitOfWork unitOfWork, CarMessagePublisher
     public async Task Handle(UpdateCarCommand request, CancellationToken cancellationToken)
     {
         var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
+            ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         car.Update(request.Title, request.Gearbox);
 

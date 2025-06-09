@@ -10,6 +10,6 @@ public class CreateCarTagCommandValidator : AbstractValidator<CreateCarTagComman
     {
         RuleFor(x => x.Title)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Title)));
+            .WithMessage(string.Format(Resources.Messages.Required, nameof(CarTag.Title)));
     }
 }

@@ -4,7 +4,7 @@ using VehicleManagement.Infrastructure.Data.Configurations;
 
 namespace VehicleManagement.Infrastructure.Data.DBContexts;
 
-public class VehicleManagementReadDBContext(DbContextOptions options) : DbContext(options)
+public class VehicleManagementReadDBContext(DbContextOptions<VehicleManagementReadDBContext> options) : DbContext(options)
 {
     public DbSet<Car> Cars { get; set; }
 

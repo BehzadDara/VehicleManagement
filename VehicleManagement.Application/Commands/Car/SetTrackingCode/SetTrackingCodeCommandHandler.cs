@@ -15,7 +15,7 @@ public class SetTrackingCodeCommandHandler(
     public async Task Handle(SetTrackingCodeCommand request, CancellationToken cancellationToken)
     {
         var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
+            ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         if (string.IsNullOrEmpty(car.TrackingCode))
         {

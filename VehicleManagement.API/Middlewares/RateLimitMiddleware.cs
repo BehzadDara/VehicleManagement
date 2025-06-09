@@ -26,7 +26,7 @@ public class RateLimitMiddleware(RequestDelegate next, IDistributedCache cache, 
 
         if (requestCount > countLimit)
         {
-            throw new TooManyReqestException(Messages.TooManyRequest);
+            throw new TooManyReqestException(Resources.Messages.TooManyRequest);
         }
         else
         {

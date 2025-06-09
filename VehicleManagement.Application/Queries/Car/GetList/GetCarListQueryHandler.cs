@@ -24,7 +24,7 @@ public class GetCarListQueryHandler(IUnitOfWork unitOfWork, IDistributedCache ca
 
 
         var specification = new GetCarsByFilterSpecification(request.Q, request.OrderType, request.PageSize, request.PageNumber);
-        var (totalCount, cars) = await unitOfWork.CarRepository.GetListAsync(specification, cancellationToken);
+        var (totalCount, cars) = await unitOfWork.CarReadRepository.GetListAsync(specification, cancellationToken);
 
         var viewModels = cars.ToViewModel();
         var paginationResult = PaginationResult<CarViewModel>.Create(request.PageSize ?? 0, request.PageNumber ?? 0, totalCount, viewModels);

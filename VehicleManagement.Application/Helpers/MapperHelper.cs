@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using VehicleManagement.Application.Publishers;
+using VehicleManagement.Application.Messages;
 using VehicleManagement.Application.ViewModels;
 using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.DomainModel.Models.MotorcycleAggregate;

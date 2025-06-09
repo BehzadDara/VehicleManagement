@@ -10,7 +10,7 @@ public class ToggleActivationMotorcycleCommandHandler(IUnitOfWork unitOfWork) : 
     public async Task Handle(ToggleActivationMotorcycleCommand request, CancellationToken cancellationToken)
     {
         var motorcycle = await unitOfWork.MotorcycleRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle), request.Id));
+            ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle), request.Id));
 
         motorcycle.ToggleActivation();
 

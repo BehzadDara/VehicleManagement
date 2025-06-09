@@ -1,6 +1,7 @@
 ﻿using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
+using VehicleManagement.Application.Messages;
 
 namespace VehicleManagement.Application.Publishers;
 

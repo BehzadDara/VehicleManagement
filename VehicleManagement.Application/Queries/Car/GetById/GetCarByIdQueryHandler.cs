@@ -22,8 +22,8 @@ public class GetCarByIdQueryHandler(IUnitOfWork unitOfWork, IDistributedCache ca
             return result;
         }
 
-        var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException(string.Format(Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
+        var car = await unitOfWork.CarReadRepository.GetByIdAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         var viewModel = car.ToViewModel();
 

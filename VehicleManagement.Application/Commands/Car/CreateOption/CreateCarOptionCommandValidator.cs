@@ -10,6 +10,6 @@ public class CreateCarOptionCommandValidator : AbstractValidator<CreateCarOption
     {
         RuleFor(x => x.Description)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(CarOption.Description)));
+            .WithMessage(string.Format(Resources.Messages.Required, nameof(CarOption.Description)));
     }
 }

@@ -9,9 +9,9 @@ public class CreateMotorcycleCommandValidator : AbstractValidator<CreateMotorcyc
     {
         RuleFor(x => x.Title)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle.Title)))
+            .WithMessage(string.Format(Resources.Messages.Required, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle.Title)))
 
             .MaximumLength(100)
-            .WithMessage(string.Format(Messages.MaxLength, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle.Title), 100));
+            .WithMessage(string.Format(Resources.Messages.MaxLength, nameof(DomainModel.Models.MotorcycleAggregate.Motorcycle.Title), 100));
     }
 }

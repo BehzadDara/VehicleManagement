@@ -1,22 +1,29 @@
-﻿using CarBlog.Models;
-using RabbitMQ.Client;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client;
 using System.Text;
+using Microsoft.Extensions.Hosting;
 using System.Text.Json;
+using VehicleManagement.Application.Messages;
+using VehicleManagement.Application.Events.Car.CreateOrUpdate;
+using MediatR;
 
-namespace CarBlog.Consumers;
+namespace VehicleManagement.Application.Consumers;
 
 public class CarMessageConsumer : BackgroundService
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IChannel _channel;
+    private readonly IMediator _mediator;
 
     private const string ExchangeName = "car_exchange";
     private const string QueueName = "car_queue";
 
-    public CarMessageConsumer(IServiceScopeFactory serviceScopeFactory, IChannel channel)
+    public CarMessageConsumer(
+        IChannel channel,
+        IMediator mediator
+        )
     {
-        _serviceScopeFactory = serviceScopeFactory;
+        _mediator = mediator;
 
         _channel = channel;
 
@@ -56,50 +63,27 @@ public class CarMessageConsumer : BackgroundService
                 var message = JsonSerializer.Deserialize<CarMessage>(stringMessage);
                 if (message != null)
                 {
-                    using var scope = _serviceScopeFactory.CreateScope();
-                    var db = scope.ServiceProvider.GetRequiredService<CarBlogDBContext>();
-
-                    var entity = await db.Cars.FindAsync([message.Id], stoppingToken);
-                    if (entity is null)
+                    var carEvent = new CarCreateOrUpdateEvent
                     {
-                        entity = new Car
-                        {
-                            Id = message.Id,
-                            Title = message.Title,
-                            Gearbox = message.Gearbox,
-                            IsActive = message.IsActive,
-                        };
+                        Id = message.Id,
+                        Title = message.Title,
+                        Gearbox = message.Gearbox,
+                        IsActive = message.IsActive,
+                        IsDeleted = message.IsDeleted,
+                    };
+                    await _mediator.Publish(carEvent, stoppingToken);
 
-                        await db.Cars.AddAsync(entity, stoppingToken);
-                    }
-                    else
-                    {
-                        if (message.IsDeleted)
-                        {
-                            db.Remove(entity);
-                        }
-                        else
-                        {
-                            entity.Title = message.Title;
-                            entity.Gearbox = message.Gearbox;
-                            entity.IsActive = message.IsActive;
-
-                            db.Update(entity);
-                        }
-                    }
-                    await db.SaveChangesAsync(stoppingToken);
+                    await _channel.BasicAckAsync(
+                        deliveryTag: eventArgs.DeliveryTag,
+                        multiple: false,
+                        cancellationToken: stoppingToken
+                        );
                 }
-
-                await _channel.BasicAckAsync(
-                    deliveryTag: eventArgs.DeliveryTag,
-                    multiple: false,
-                    cancellationToken: stoppingToken
-                    );
             }
             catch (Exception)
             {
                 await _channel.BasicNackAsync(
-                    deliveryTag: eventArgs.DeliveryTag, 
+                    deliveryTag: eventArgs.DeliveryTag,
                     multiple: false,
                     requeue: true,
                     cancellationToken: stoppingToken

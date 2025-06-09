@@ -17,15 +17,35 @@ public class Car : Vehicle
         Gearbox = gearbox;
     }
 
+    private Car(int id, string title, GearboxType gearbox)
+    {
+        Id = id;
+        Title = title;
+        IsActive = true;
+        Gearbox = gearbox;
+    }
+
     public static Car Create(string title, GearboxType gearbox)
     {
         return new Car(title, gearbox);
+    }
+
+    public static Car Create(int id, string title, GearboxType gearbox)
+    {
+        return new Car(id, title, gearbox);
     }
 
     public void Update(string title, GearboxType gearbox)
     {
         Title = title;
         Gearbox = gearbox;
+    }
+
+    public void Update(string title, GearboxType gearbox, bool isActive)
+    {
+        Title = title;
+        Gearbox = gearbox;
+        IsActive = isActive;
     }
 
     public void ToggleActivation()

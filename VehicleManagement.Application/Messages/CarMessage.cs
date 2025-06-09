@@ -1,4 +1,4 @@
-﻿namespace VehicleManagement.Application.Publishers;
+﻿namespace VehicleManagement.Application.Messages;
 
 public class CarMessage
 {

@@ -16,10 +16,10 @@ public class DeleteCarTagCommandValidator : AbstractValidator<DeleteCarTagComman
     {
         RuleFor(x => x.Title)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Title)));
+            .WithMessage(string.Format(Resources.Messages.Required, nameof(CarTag.Title)));
 
         RuleFor(x => x.Priority)
             .NotNull().NotEmpty()
-            .WithMessage(string.Format(Messages.Required, nameof(CarTag.Priority)));
+            .WithMessage(string.Format(Resources.Messages.Required, nameof(CarTag.Priority)));
     }
 }
