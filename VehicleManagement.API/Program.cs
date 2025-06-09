@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using System.Reflection;
-using Microsoft.Extensions.Options;
 using VehicleManagement.Infrastructure.Data;
 using VehicleManagement.DomainService.Repositories;
 using VehicleManagement.DomainService.Proxies;
@@ -39,6 +38,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<VehicleManagementDBContext>(options => options.UseSqlServer(connectionString));
+var readConnectionString = builder.Configuration.GetConnectionString("ReadConnection");
+builder.Services.AddDbContext<VehicleManagementReadDBContext>(options => options.UseSqlServer(readConnectionString));
 
 var rabbitMQConfig = builder.Configuration.GetSection("RabbitMQ");
 builder.Services.AddSingleton<IConnectionFactory>(_ =>
