@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleManagement.Infrastructure.Data.DBContexts;
 
 #nullable disable
 
-namespace VehicleManagement.Infrastructure.Data.Migrations
+namespace VehicleManagement.Infrastructure.Data.Migrations.Main
 {
     [DbContext(typeof(VehicleManagementDBContext))]
-    [Migration("20250526164549_Permissons")]
-    partial class Permissons
+    partial class VehicleManagementDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +69,7 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BackOfficeUserRoleId")
+                    b.Property<int?>("BackOfficeUserRoleId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -82,7 +79,7 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
                     b.HasIndex("BackOfficeUserRoleId");
 
-                    b.ToTable("BackOfficeUserPermissions", "v");
+                    b.ToTable("BackOfficeUserPermission", "v");
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", b =>
@@ -252,8 +249,7 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                     b.HasOne("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", null)
                         .WithMany("Permissions")
                         .HasForeignKey("BackOfficeUserRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUserRole", b =>

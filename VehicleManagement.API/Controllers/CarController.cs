@@ -23,7 +23,7 @@ namespace VehicleManagement.API.Controllers;
 public class CarController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Authorize(Policy = "CarModifyPolicy")]
+    //[Authorize(Policy = "CarModifyPolicy")]
     public async Task<IActionResult> Create([FromBody] CreateOrUpdateCarDTO input, CancellationToken cancellationToken)
     {
         var command = new CreateCarCommand(input.Title, input.Gearbox);

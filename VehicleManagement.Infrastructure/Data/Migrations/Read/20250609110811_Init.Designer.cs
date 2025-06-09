@@ -9,11 +9,11 @@ using VehicleManagement.Infrastructure.Data.DBContexts;
 
 #nullable disable
 
-namespace VehicleManagement.Infrastructure.Data.Migrations
+namespace VehicleManagement.Infrastructure.Data.Migrations.Read
 {
-    [DbContext(typeof(VehicleManagementDBContext))]
-    [Migration("20250526162416_CurrentUser")]
-    partial class CurrentUser
+    [DbContext(typeof(VehicleManagementReadonlyDBContext))]
+    [Migration("20250609110811_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,7 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence("CarSequence");
-
-            modelBuilder.HasSequence("MotorcycleSequence");
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.BackOfficeUserAggregate.BackOfficeUser", b =>
+            modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,53 +34,20 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BackOfficeUsers", "bo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Password = "123",
-                            Username = "Behzad"
-                        });
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR [v].[CarSequence]");
-
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Gearbox")
                         .IsRequired()
@@ -111,16 +74,12 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrackingCode")
-                        .IsUnique();
-
                     b.ToTable("Cars", "v");
-
-                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.CarOption", b =>
@@ -134,73 +93,13 @@ namespace VehicleManagement.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("CarOptions", "v");
-                });
-
-            modelBuilder.Entity("VehicleManagement.DomainModel.Models.MotorcycleAggregate.Motorcycle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR [v].[MotorcycleSequence]");
-
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Fuel")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TrackingCode")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackingCode")
-                        .IsUnique();
-
-                    b.ToTable("Motorcycles", "v");
-
-                    b.UseTpcMappingStrategy();
+                    b.ToTable("CarOption", "v");
                 });
 
             modelBuilder.Entity("VehicleManagement.DomainModel.Models.CarAggregate.Car", b =>

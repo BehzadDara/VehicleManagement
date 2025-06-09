@@ -40,6 +40,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<VehicleManagementDBContext>(options => options.UseSqlServer(connectionString));
 
+var readonlyConnectionString = builder.Configuration.GetConnectionString("ReadonlyConnection");
+builder.Services.AddDbContext<VehicleManagementReadonlyDBContext>(options => options.UseSqlServer(readonlyConnectionString));
+
 var rabbitMQConfig = builder.Configuration.GetSection("RabbitMQ");
 builder.Services.AddSingleton<IConnectionFactory>(_ =>
     new ConnectionFactory

@@ -5,7 +5,7 @@ using VehicleManagement.DomainModel.Models.MotorcycleAggregate;
 
 namespace VehicleManagement.Infrastructure.Data.DBContexts;
 
-public class VehicleManagementDBContext(DbContextOptions options) : DbContext(options)
+public class VehicleManagementDBContext(DbContextOptions<VehicleManagementDBContext> options) : DbContext(options)
 {
     public DbSet<Car> Cars { get; set; }
     public DbSet<Motorcycle> Motorcycles { get; set; }

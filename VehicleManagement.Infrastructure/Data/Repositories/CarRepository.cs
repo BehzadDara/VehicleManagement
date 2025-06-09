@@ -8,9 +8,13 @@ using VehicleManagement.Infrastructure.Helpers;
 
 namespace VehicleManagement.Infrastructure.Data.Repositories;
 
-public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUser) : ICarRepository
+public class CarRepository(
+    VehicleManagementDBContext db, 
+    VehicleManagementReadonlyDBContext readonlydb,
+    ICurrentUser currentUser) : ICarRepository
 {
     private readonly DbSet<Car> set = db.Set<Car>();
+    private readonly DbSet<Car> readonlySet = readonlydb.Set<Car>();
 
     private IQueryable<Car> GetQueryable(IQueryable<Car> query)
     {
@@ -31,7 +35,7 @@ public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUs
 
     private IQueryable<Car> GetReadOnlyQueryable()
     {
-        var query = set.AsNoTracking().AsQueryable();
+        var query = readonlySet.AsNoTracking().AsQueryable();
 
         return GetQueryable(query);
     }
