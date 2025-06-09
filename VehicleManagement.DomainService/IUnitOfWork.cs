@@ -5,6 +5,7 @@ namespace VehicleManagement.DomainService;
 public interface IUnitOfWork
 {
     public Task CommitAsync(CancellationToken cancellationToken);
+    public Task CommitReadAsync(CancellationToken cancellationToken);
 
     public ICarRepository CarRepository { get; init; }
     public ICarReadRepository CarReadRepository { get; init; }

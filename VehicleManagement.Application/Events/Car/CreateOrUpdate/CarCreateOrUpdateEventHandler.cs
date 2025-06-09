@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using VehicleManagement.DomainModel.Enums;
-using VehicleManagement.DomainModel.Models.CarAggregate;
 using VehicleManagement.DomainService;
 
 namespace VehicleManagement.Application.Events.Car.CreateOrUpdate;
@@ -38,6 +37,6 @@ public class CarCreateOrUpdateEventHandler(IUnitOfWork unitOfWork) : INotificati
                 unitOfWork.CarReadRepository.Delete(car);
             }
         }
-        await unitOfWork.CommitAsync(cancellationToken);
+        await unitOfWork.CommitReadAsync(cancellationToken);
     }
 }
