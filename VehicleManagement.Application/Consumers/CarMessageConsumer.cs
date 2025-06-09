@@ -12,18 +12,18 @@ namespace VehicleManagement.Application.Consumers;
 
 public class CarMessageConsumer : BackgroundService
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IChannel _channel;
-    private readonly IMediator _mediator;
 
     private const string ExchangeName = "car_exchange";
     private const string QueueName = "car_queue";
 
     public CarMessageConsumer(
-        IChannel channel,
-        IMediator mediator
+        IServiceScopeFactory serviceScopeFactory,
+        IChannel channel
         )
     {
-        _mediator = mediator;
+        _serviceScopeFactory = serviceScopeFactory;
 
         _channel = channel;
 
@@ -63,6 +63,9 @@ public class CarMessageConsumer : BackgroundService
                 var message = JsonSerializer.Deserialize<CarMessage>(stringMessage);
                 if (message != null)
                 {
+                    using var scope = _serviceScopeFactory.CreateScope();
+                    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
                     var carEvent = new CarCreateOrUpdateEvent
                     {
                         Id = message.Id,
@@ -71,7 +74,7 @@ public class CarMessageConsumer : BackgroundService
                         IsActive = message.IsActive,
                         IsDeleted = message.IsDeleted,
                     };
-                    await _mediator.Publish(carEvent, stoppingToken);
+                    await mediator.Publish(carEvent, stoppingToken);
 
                     await _channel.BasicAckAsync(
                         deliveryTag: eventArgs.DeliveryTag,
