@@ -34,6 +34,7 @@ using VehicleManagement.Infrastructure.Resolvers;
 using VehicleManagement.DomainService.Resolvers;
 using VehicleManagement.DomainService.Failovers;
 using VehicleManagement.Application.Consumers;
+using VehicleManagement.DomainService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +119,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IReadUnitOfWork, ReadUnitOfWork>();
 
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarReadRepository, CarReadRepository>();

@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Exceptions;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 using VehicleManagement.DomainService.Failovers;
-using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.Car.SetTrackingCode;
 

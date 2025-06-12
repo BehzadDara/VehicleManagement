@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Exceptions;
-using VehicleManagement.DomainService;
-using VehicleManagement.Resources;
+using VehicleManagement.DomainService.Data;
 
 namespace VehicleManagement.Application.Commands.Car.CreateOption;
 

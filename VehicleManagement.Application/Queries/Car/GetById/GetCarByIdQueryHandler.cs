@@ -4,12 +4,12 @@ using System.Text.Json;
 using VehicleManagement.Application.Exceptions;
 using VehicleManagement.Application.Helpers;
 using VehicleManagement.Application.ViewModels;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Queries.Car.GetById;
 
-public class GetCarByIdQueryHandler(IUnitOfWork unitOfWork, IDistributedCache cache) : IRequestHandler<GetCarByIdQuery, CarViewModel>
+public class GetCarByIdQueryHandler(IReadUnitOfWork unitOfWork, IDistributedCache cache) : IRequestHandler<GetCarByIdQuery, CarViewModel>
 {
     public async Task<CarViewModel> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
     {
@@ -22,7 +22,7 @@ public class GetCarByIdQueryHandler(IUnitOfWork unitOfWork, IDistributedCache ca
             return result;
         }
 
-        var car = await unitOfWork.CarReadRepository.GetByIdAsync(request.Id, cancellationToken)
+        var car = await unitOfWork.CarRepository.GetByIdAsync(request.Id, cancellationToken)
             ?? throw new NotFoundException(string.Format(Resources.Messages.NotFound, nameof(DomainModel.Models.CarAggregate.Car), request.Id));
 
         var viewModel = car.ToViewModel();

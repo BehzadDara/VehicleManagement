@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using VehicleManagement.DomainModel.Enums;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 
 namespace VehicleManagement.Application.Events.Car.CreateOrUpdate;
 
-public class CarCreateOrUpdateEventHandler(IUnitOfWork unitOfWork) : INotificationHandler<CarCreateOrUpdateEvent>
+public class CarCreateOrUpdateEventHandler(IReadUnitOfWork unitOfWork) : INotificationHandler<CarCreateOrUpdateEvent>
 {
     public async Task Handle(CarCreateOrUpdateEvent notification, CancellationToken cancellationToken)
     {
         var gearbox = notification.Gearbox == "Manual" ? GearboxType.Manual : GearboxType.Automatic;
 
-        var car = await unitOfWork.CarReadRepository.GetByIdAsync(notification.Id, cancellationToken);
+        var car = await unitOfWork.CarRepository.GetByIdAsync(notification.Id, cancellationToken);
         if (car is null)
         {
             car = DomainModel.Models.CarAggregate.Car.Create(
@@ -18,7 +18,7 @@ public class CarCreateOrUpdateEventHandler(IUnitOfWork unitOfWork) : INotificati
                 notification.Title,
                 gearbox);
 
-            await unitOfWork.CarReadRepository.AddAsync(car, cancellationToken);
+            await unitOfWork.CarRepository.AddAsync(car, cancellationToken);
         }
         else
         {
@@ -30,13 +30,13 @@ public class CarCreateOrUpdateEventHandler(IUnitOfWork unitOfWork) : INotificati
                     notification.IsActive
                     );
 
-                unitOfWork.CarReadRepository.Update(car);
+                unitOfWork.CarRepository.Update(car);
             }
             else
             {
-                unitOfWork.CarReadRepository.Delete(car);
+                unitOfWork.CarRepository.Delete(car);
             }
         }
-        await unitOfWork.CommitReadAsync(cancellationToken);
+        await unitOfWork.CommitAsync(cancellationToken);
     }
 }

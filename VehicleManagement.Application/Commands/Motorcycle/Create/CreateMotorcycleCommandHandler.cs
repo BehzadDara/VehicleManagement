@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 
 namespace VehicleManagement.Application.Commands.Motorcycle.Create;
 

@@ -3,8 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using VehicleManagement.Application.Exceptions;
 using VehicleManagement.Application.Helpers;
 using VehicleManagement.Application.ViewModels;
-using VehicleManagement.DomainService;
-using VehicleManagement.Resources;
+using VehicleManagement.DomainService.Data;
 
 namespace VehicleManagement.Application.Queries.Motorcycle.GetById;
 

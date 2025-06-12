@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Exceptions;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 using VehicleManagement.DomainService.Services;
 using VehicleManagement.DomainService.Specifications;
-using VehicleManagement.Resources;
 
 namespace VehicleManagement.Application.Commands.BackOfficeUser.Login;
 

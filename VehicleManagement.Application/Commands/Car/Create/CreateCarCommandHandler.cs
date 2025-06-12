@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using VehicleManagement.Application.Helpers;
 using VehicleManagement.Application.Publishers;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 
 namespace VehicleManagement.Application.Commands.Car.Create;
 

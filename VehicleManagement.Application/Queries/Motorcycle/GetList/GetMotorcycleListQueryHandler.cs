@@ -4,7 +4,7 @@ using System.Text.Json;
 using VehicleManagement.Application.Features;
 using VehicleManagement.Application.Helpers;
 using VehicleManagement.Application.ViewModels;
-using VehicleManagement.DomainService;
+using VehicleManagement.DomainService.Data;
 using VehicleManagement.DomainService.Specifications;
 
 namespace VehicleManagement.Application.Queries.Motorcycle.GetList;

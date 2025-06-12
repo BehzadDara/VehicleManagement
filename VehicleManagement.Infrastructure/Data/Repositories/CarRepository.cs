@@ -70,19 +70,12 @@ public class CarRepository(VehicleManagementDBContext db, ICurrentUser currentUs
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<(int, List<Car>)> GetListAsync(BaseSpecification<Car> specification, CancellationToken cancellationToken)
+    public async Task<List<Car>> GetListAsync(BaseSpecification<Car> specification, CancellationToken cancellationToken)
     {
         var query = GetReadOnlyQueryable().Specify(specification);
 
-        var totalCount = await query.CountAsync(cancellationToken);
-
-        if (specification.IsPaginationEnabled)
-        {
-            query = query.Skip(specification.Skip).Take(specification.Take);
-        }
-
         var result = await query.ToListAsync(cancellationToken);
 
-        return (totalCount, result);
+        return result;
     }
 }

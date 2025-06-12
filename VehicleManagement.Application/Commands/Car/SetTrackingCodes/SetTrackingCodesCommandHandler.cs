@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using VehicleManagement.DomainService;
-using VehicleManagement.DomainService.Proxies;
+using VehicleManagement.DomainService.Data;
 using VehicleManagement.DomainService.Resolvers;
 using VehicleManagement.DomainService.Specifications;
 
@@ -14,7 +13,7 @@ public class SetTrackingCodesCommandHandler(
     public async Task Handle(SetTrackingCodesCommand request, CancellationToken cancellationToken)
     {
         var specification = new GetCarsWithNoTrackinCodeSpecification();
-        var (_, entities) = await unitOfWork.CarRepository.GetListAsync(specification, cancellationToken);
+        var entities = await unitOfWork.CarRepository.GetListAsync(specification, cancellationToken);
 
         if (entities.Count == 0)
         {
