@@ -249,6 +249,10 @@ RecurringJob.AddOrUpdate<CarsTrackingCodeJob>(
 app.Run();
 
 
+// Due to Functional Tests
+public partial class Program { }
+
+
 // Queue -> QueueSource and QueueDestination
 // Routing Key -> ModelA.Create and ModelA.Update
 // Binding Key -> ModelA.Create OR ModelA.* OR *.Create
