@@ -13,8 +13,8 @@ public class BaseResult<T> : BaseResult
 public class BaseResult
 {
     public bool IsSuccess { get; set; }
-    public string Message { get; private set; } = string.Empty;
-    public Dictionary<string, string[]> ValidationErrors { get; private set; } = [];
+    public string Message { get; set; } = string.Empty;
+    public Dictionary<string, string[]> ValidationErrors { get; set; } = [];
 
     public static BaseResult Fail(string message, Dictionary<string, string[]> validationErrors)
     {
